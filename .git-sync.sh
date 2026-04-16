@@ -1,30 +1,26 @@
 #!/bin/bash
-# Auto-sync wiki with GitHub
+# Auto-sync wiki (public) + wiki-private with GitHub
 # Runs via launchd every 15 minutes
-# Commits local changes, pulls remote changes (from reconciler), pushes
-
-cd /Users/meesh/wiki || exit 1
 
 LOG="/Users/meesh/gt/logs/wiki-sync.log"
 mkdir -p "$(dirname "$LOG")"
 
-{
-  echo "=== $(date) ==="
-
-  # Stage all changes
+sync_repo() {
+  local dir="$1" label="$2"
+  cd "$dir" || return 1
+  echo "--- $label ($dir) ---"
   git add -A
-
-  # Commit if there are changes
   if ! git diff --cached --quiet; then
-    git commit -m "wiki: auto-sync $(date +%Y-%m-%d\ %H:%M)"
+    git commit -m "$label: auto-sync $(date +%Y-%m-%d\ %H:%M)"
     echo "Committed local changes"
   fi
-
-  # Pull remote changes (from reconciler or other devices)
   git pull --rebase origin main 2>&1
-
-  # Push
   git push origin main 2>&1
+}
 
+{
+  echo "=== $(date) ==="
+  sync_repo /Users/meesh/wiki "wiki"
+  sync_repo /Users/meesh/wiki-private "wiki-private"
   echo "Done"
 } >> "$LOG" 2>&1
