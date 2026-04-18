@@ -37,6 +37,7 @@ Rebuild personal site with a blog showcasing technical depth. Current site is As
 - [ ] **Why neural implicit reps for ML** — the case for SDFs/NeRFs over meshes/voxels in ML pipelines. Differentiability, smooth gradients, compact storage, plug-and-play with downstream losses. Comparison with marching-cubes-on-voxels approaches.
 
 ### Brainstorm (could develop into posts)
+- [ ] **Spec-Driven Development** — designing software by writing specs first, then letting agents/LLMs implement against them. How it changes the dev loop, quality gates, and what "done" means.
 - [ ] **Agent Orchestration with Gas Town** — how I built a multi-agent system for personal productivity. Architecture, lessons learned, what works and what doesn't.
 - [ ] **Building a Personal Finance Pipeline** — SimpleFIN + Beancount + Claude. Automating financial tracking with plain-text accounting.
 - [ ] **Claude Code as a Daily Driver** — using Claude Code for everything from email triage to wiki management. Workflow, hooks, MCP integrations.
