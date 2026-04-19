@@ -53,5 +53,8 @@ Running list of ideas. When one gets serious, promote it to its own `projects/<n
 ## Crypto / Web3
 - **Prathik's Energy NFTs** — pay agents in energy NFTs
 
+## Research / ML
+- **Sub-Token Prediction LLMs** — next-token prediction where the model only sees/predicts a sub-word fragment (e.g. first token of each word) rather than full BPE tokens. Could enable faster inference via shorter sequences, force the model to learn stronger word-level priors, or serve as a compression/distillation technique. Explore whether partial-token supervision produces useful representations or competitive generation quality.
+
 ## Reference
 - Karpathy's LLM wiki pattern: https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f
