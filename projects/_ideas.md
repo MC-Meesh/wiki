@@ -54,7 +54,12 @@ Running list of ideas. When one gets serious, promote it to its own `projects/<n
 - **Prathik's Energy NFTs** — pay agents in energy NFTs
 
 ## Research / ML
-- **Sub-Token Prediction LLMs** — next-token prediction where the model only sees/predicts a sub-word fragment (e.g. first token of each word) rather than full BPE tokens. Could enable faster inference via shorter sequences, force the model to learn stronger word-level priors, or serve as a compression/distillation technique. Explore whether partial-token supervision produces useful representations or competitive generation quality.
+- **Sub-Token Prediction LLMs** — train a language model whose generation target is abbreviated/partial representations (e.g. first character or first BPE token of each word) rather than full sequences, then reconstruct full text in a second pass. The core thesis: if a model can predict the right word from just its initial fragment, it has learned strong word-level priors and contextual constraints. This compresses the autoregressive sequence length dramatically (potentially 3-5x fewer steps), which directly reduces inference latency since transformer cost scales with sequence length. Two-stage architecture: (1) a "skeleton" model that predicts compressed fragments, (2) a lightweight expander that reconstructs full tokens — the expander could be parallel since fragments are mostly independent. Could also serve as a training signal — partial-token prediction as an auxiliary loss might improve sample efficiency by forcing the model to commit to word identity earlier. **Largely novel as of 2025** — no published work proposes this exact framing. Adjacent work:
+  - *Abbreviation expansion* ([NAACL 2022](https://aclanthology.org/2022.naacl-main.91/), [2023 fine-tuning paper](https://arxiv.org/html/2312.14327v1)) — LLMs can reconstruct full sentences from first-letter abbreviations (reverse direction, validates feasibility)
+  - *Multi-Token Prediction* ([Meta FAIR 2024](https://arxiv.org/abs/2404.19737)) — predict N future tokens simultaneously, but full tokens
+  - *Skeleton-of-Thought* ([ICLR 2024](https://arxiv.org/abs/2307.15337)) — generate outline first, expand in parallel (closest in spirit)
+  - *MrT5 / SpaceByte* — dynamic token merging/compression at byte level, not abbreviation level
+  - *Speculative decoding* (EAGLE, Medusa) — draft models predict full tokens, not fragments
 
 ## Reference
 - Karpathy's LLM wiki pattern: https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f
