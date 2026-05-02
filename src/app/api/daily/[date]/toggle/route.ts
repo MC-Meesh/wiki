@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "@/lib/auth";
+import { getSession } from "@/lib/auth";
 import { readWikiFile, writeWikiFile } from "@/lib/wiki";
 
 export const dynamic = "force-dynamic";
@@ -8,11 +8,9 @@ export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ date: string }> }
 ) {
-  if (process.env.SKIP_AUTH !== "true") {
-    const session = await auth();
-    if (!session)
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  const session = await getSession();
+  if (!session.authenticated)
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const { date } = await params;
   const { line, checked } = await request.json();

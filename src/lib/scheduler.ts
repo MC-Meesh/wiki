@@ -5,7 +5,7 @@
 
 import cron from "node-cron";
 import simpleGit from "simple-git";
-import { reconcileDaily } from "./reconciler.js";
+import { reconcileDaily } from "./reconciler";
 
 let started = false;
 

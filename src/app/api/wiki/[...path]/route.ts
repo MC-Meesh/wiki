@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "@/lib/auth";
+import { getSession } from "@/lib/auth";
 import { readWikiFile, writeWikiFile, listWikiDir } from "@/lib/wiki";
 
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ path: string[] }> }
 ) {
-  const session = await auth();
-  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const session = await getSession();
+  if (!session.authenticated) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const { path } = await params;
   const filePath = path.join("/");
@@ -27,8 +27,8 @@ export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ path: string[] }> }
 ) {
-  const session = await auth();
-  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const session = await getSession();
+  if (!session.authenticated) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const { path } = await params;
   const filePath = path.join("/");

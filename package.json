@@ -2,7 +2,14 @@
   "name": "llm-wiki",
   "version": "0.1.0",
   "description": "Self-hosted AI wiki — single source of truth across all your devices, managed by any LLM",
-  "keywords": ["wiki", "llm", "ai", "knowledge-base", "self-hosted", "second-brain"],
+  "keywords": [
+    "wiki",
+    "llm",
+    "ai",
+    "knowledge-base",
+    "self-hosted",
+    "second-brain"
+  ],
   "author": "",
   "license": "MIT",
   "homepage": "https://github.com/MC-Meesh/llm-wiki",
@@ -46,6 +53,7 @@
     "unified": "^11.0.0"
   },
   "devDependencies": {
+    "@types/node-cron": "^3.0.11",
     "eslint": "^9.0.0",
     "eslint-config-next": "^15.0.0"
   }
