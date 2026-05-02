@@ -18,6 +18,19 @@ npx create-wiki
 Runs an interactive wizard: GitHub auth, creates your wiki repo, writes `.env`, installs, and starts the app. Done in two minutes.
 
 <details>
+<summary>Claude / LLM setup (clone and paste your repo URL)</summary>
+
+```bash
+git clone https://github.com/MC-Meesh/wiki.git
+cd wiki
+claude  # or any Claude Code session pointed at this directory
+```
+
+Claude reads `CLAUDE.md` and walks you through the rest. Paste your wiki repo URL and a GitHub token when asked.
+
+</details>
+
+<details>
 <summary>curl | bash (no npx required)</summary>
 
 ```bash

@@ -61,7 +61,7 @@ async function deviceFlow() {
 }
 
 async function main() {
-  console.log("\nllm-wiki setup\n");
+  console.log("\nwiki setup\n");
 
   // Step 1: GitHub auth
   console.log("Step 1/3  GitHub authentication");
@@ -107,10 +107,10 @@ async function main() {
   const port = (await ask("  Port [3000]: ")).trim() || "3000";
   rl.close();
 
-  const installDir = join(process.cwd(), "llm-wiki");
+  const installDir = join(process.cwd(), "wiki");
   if (!existsSync(installDir)) {
-    console.log("  Cloning llm-wiki...");
-    spawnSync("git", ["clone", `https://github.com/${APP_REPO}.git`, "llm-wiki"], {
+    console.log("  Cloning wiki...");
+    spawnSync("git", ["clone", `https://github.com/${APP_REPO}.git`, "wiki"], {
       stdio: "inherit",
     });
   }
@@ -132,7 +132,7 @@ async function main() {
   spawnSync("npm", ["install"], { cwd: installDir, stdio: "inherit" });
 
   console.log(`\nDone.\n`);
-  console.log(`  cd llm-wiki && npm start`);
+  console.log(`  cd wiki && npm start`);
   console.log(`  Open http://localhost:${port}\n`);
 }
 
