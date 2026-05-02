@@ -15,11 +15,11 @@
   "homepage": "https://github.com/MC-Meesh/wiki",
   "repository": {
     "type": "git",
-    "url": "https://github.com/MC-Meesh/wiki.git"
+    "url": "git+https://github.com/MC-Meesh/wiki.git"
   },
   "type": "module",
   "bin": {
-    "create-wiki": "./bin/create-wiki.js"
+    "create-wiki": "bin/create-wiki.js"
   },
   "scripts": {
     "dev": "node scripts/start.js --dev",
