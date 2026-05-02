@@ -47,7 +47,7 @@ npm start
 - **Git-backed:** your wiki is a plain markdown repo you own, cloned from [llm-wiki-template](https://github.com/MC-Meesh/llm-wiki-template)
 - **Daily todos:** automatic morning carry-forward with original dates preserved
 - **Web UI:** mobile-friendly, works on any device
-- **Self-hosted:** Railway, Vercel, Render, [Mortise](https://mortise.me), or just `npm start` locally
+- **Self-hosted:** Railway, Vercel, Render, [Mortise](https://github.com/mortise-org/mortise), or just `npm start` locally
 
 ---
 
@@ -68,7 +68,7 @@ All config lives in `.env`. See [`.env.example`](.env.example) for the full refe
 
 ## Deploying
 
-### Railway / Vercel / Render / [Mortise](https://mortise.me)
+### Railway / Vercel / Render / [Mortise](https://github.com/mortise-org/mortise)
 
 Push your fork to GitHub. The platform auto-detects Next.js. Set the env vars in the dashboard and point the start command to `npm start`.
 
