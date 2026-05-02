@@ -1,25 +1,25 @@
 {
-  "name": "llm-wiki",
+  "name": "create-wiki",
   "version": "0.1.0",
-  "description": "Self-hosted AI wiki — single source of truth across all your devices, managed by any LLM",
+  "description": "Self-hosted AI wiki, managed by Claude.",
   "keywords": [
     "wiki",
-    "llm",
     "ai",
+    "claude",
     "knowledge-base",
     "self-hosted",
     "second-brain"
   ],
   "author": "",
   "license": "MIT",
-  "homepage": "https://github.com/MC-Meesh/llm-wiki",
+  "homepage": "https://github.com/MC-Meesh/wiki",
   "repository": {
     "type": "git",
-    "url": "https://github.com/MC-Meesh/llm-wiki.git"
+    "url": "https://github.com/MC-Meesh/wiki.git"
   },
   "type": "module",
   "bin": {
-    "create-llm-wiki": "./bin/create-llm-wiki.js"
+    "create-wiki": "./bin/create-wiki.js"
   },
   "scripts": {
     "dev": "node scripts/start.js --dev",

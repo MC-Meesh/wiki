@@ -1,9 +1,9 @@
-# llm-wiki
+# wiki
 
 **Self-hosted AI wiki, managed by Claude.**
 
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
-[![npm](https://img.shields.io/npm/v/create-llm-wiki)](https://www.npmjs.com/package/create-llm-wiki)
+[![npm](https://img.shields.io/npm/v/create-wiki)](https://www.npmjs.com/package/create-wiki)
 
 Your AI assistant reads and writes a git-backed markdown wiki every session: capturing todos, notes, projects, and goals. Changes sync automatically across devices. Access it anywhere via the web UI.
 
@@ -12,7 +12,7 @@ Your AI assistant reads and writes a git-backed markdown wiki every session: cap
 ## Setup
 
 ```bash
-npx create-llm-wiki
+npx create-wiki
 ```
 
 Runs an interactive wizard: GitHub auth, creates your wiki repo, writes `.env`, installs, and starts the app. Done in two minutes.
@@ -21,7 +21,7 @@ Runs an interactive wizard: GitHub auth, creates your wiki repo, writes `.env`, 
 <summary>curl | bash (no npx required)</summary>
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/MC-Meesh/llm-wiki/main/setup.sh | bash
+curl -fsSL https://raw.githubusercontent.com/MC-Meesh/wiki/main/setup.sh | bash
 ```
 
 </details>
@@ -30,8 +30,8 @@ curl -fsSL https://raw.githubusercontent.com/MC-Meesh/llm-wiki/main/setup.sh | b
 <summary>Manual install</summary>
 
 ```bash
-git clone https://github.com/MC-Meesh/llm-wiki.git
-cd llm-wiki
+git clone https://github.com/MC-Meesh/wiki.git
+cd wiki
 cp .env.example .env   # fill in WIKI_REPO_URL and GITHUB_TOKEN
 npm install
 npm start
@@ -44,7 +44,7 @@ npm start
 ## Features
 
 - **Claude-powered:** Claude Code reads wiki files, writes todos, captures notes, and runs tools
-- **Git-backed:** your wiki is a plain markdown repo you own, cloned from [llm-wiki-template](https://github.com/MC-Meesh/llm-wiki-template)
+- **Git-backed:** your wiki is a plain markdown repo you own, cloned from [wiki-template](https://github.com/MC-Meesh/llm-wiki-template)
 - **Daily todos:** automatic morning carry-forward with original dates preserved
 - **Web UI:** mobile-friendly, works on any device
 - **Self-hosted:** Railway, Vercel, Render, [Mortise](https://github.com/mortise-org/mortise), or just `npm start` locally
@@ -83,7 +83,7 @@ npm run dev      # dev mode with hot reload
 
 ## Wiki template
 
-Your wiki repo is created from [llm-wiki-template](https://github.com/MC-Meesh/llm-wiki-template). It contains:
+Your wiki repo is created from [wiki-template](https://github.com/MC-Meesh/llm-wiki-template). It contains:
 
 - `CLAUDE.md`: AI instructions loaded as system context every session
 - `daily/`: daily task files with automatic carry-forward

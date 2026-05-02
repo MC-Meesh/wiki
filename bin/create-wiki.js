@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 /**
- * create-llm-wiki — interactive setup CLI
+ * create-wiki — interactive setup CLI
  *
- * Usage: npx create-llm-wiki
+ * Usage: npx create-wiki
  *
  * 1. GitHub device flow → token
  * 2. Create wiki repo from llm-wiki-template
- * 3. Clone llm-wiki app
+ * 3. Clone wiki app
  * 4. Write .env
  * 5. npm install
  */
@@ -18,7 +18,7 @@ import { join } from "path";
 
 const GITHUB_CLIENT_ID = "Ov23lihLUtcZQXFRHl1B";
 const TEMPLATE_REPO = "MC-Meesh/llm-wiki-template";
-const APP_REPO = "MC-Meesh/llm-wiki";
+const APP_REPO = "MC-Meesh/wiki";
 
 const rl = createInterface({ input: process.stdin, output: process.stdout });
 const ask = (q) => new Promise((res) => rl.question(q, res));
