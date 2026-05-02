@@ -18,7 +18,7 @@ import { execSync, spawnSync } from "child_process";
 import { writeFileSync, existsSync } from "fs";
 import { join } from "path";
 
-const GITHUB_CLIENT_ID = "Ov23liABpRpGWmFVHDjG"; // llm-wiki OAuth App (device flow)
+const GITHUB_CLIENT_ID = "Ov23lihLUtcZQXFRHl1B"; // llm-wiki OAuth App (device flow)
 const TEMPLATE_REPO = "MC-Meesh/llm-wiki-template";
 const APP_REPO = "MC-Meesh/llm-wiki";
 
