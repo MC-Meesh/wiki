@@ -1,0 +1,54 @@
+{
+  "name": "llm-wiki",
+  "version": "0.1.0",
+  "description": "Self-hosted AI wiki — single source of truth across all your devices, managed by any LLM",
+  "keywords": ["wiki", "llm", "ai", "knowledge-base", "self-hosted", "second-brain"],
+  "author": "",
+  "license": "MIT",
+  "homepage": "https://github.com/MC-Meesh/llm-wiki",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MC-Meesh/llm-wiki.git"
+  },
+  "type": "module",
+  "bin": {
+    "create-llm-wiki": "./bin/create-llm-wiki.js"
+  },
+  "scripts": {
+    "dev": "node scripts/start.js --dev",
+    "build": "next build",
+    "start": "node scripts/start.js",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0",
+    "@codemirror/commands": "^6.10.3",
+    "@codemirror/lang-markdown": "^6.5.0",
+    "@codemirror/language": "^6.12.3",
+    "@codemirror/language-data": "^6.5.2",
+    "@codemirror/state": "^6.6.0",
+    "@codemirror/view": "^6.41.0",
+    "@tailwindcss/postcss": "^4.2.2",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "ai": "^4.0.0",
+    "node-cron": "^3.0.3",
+    "next": "^15.0.0",
+    "postcss": "^8.5.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "rehype-stringify": "^10.0.0",
+    "remark-gfm": "^4.0.0",
+    "remark-parse": "^11.0.0",
+    "remark-rehype": "^11.0.0",
+    "simple-git": "^3.27.0",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.0.0",
+    "unified": "^11.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^9.0.0",
+    "eslint-config-next": "^15.0.0"
+  }
+}
