@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import { SessionProvider } from "next-auth/react";
 import { MobileShell } from "@/components/shell/MobileShell";
 import "./globals.css";
 
@@ -30,9 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <SessionProvider>
-          <MobileShell>{children}</MobileShell>
-        </SessionProvider>
+        <MobileShell>{children}</MobileShell>
       </body>
     </html>
   );
