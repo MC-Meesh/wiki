@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 const SESSION_COOKIE = "llm-wiki-session";
 const CLIENT_ID = process.env.AUTH_GITHUB_ID!;
+const CLIENT_SECRET = process.env.AUTH_GITHUB_SECRET;
 const ALLOWED_USERNAME = process.env.ALLOWED_GITHUB_USERNAME;
 
 function makeSessionToken() {
@@ -33,11 +34,13 @@ export async function POST(request: NextRequest) {
 
   if (action === "device-poll") {
     const { device_code } = body;
-    const params = new URLSearchParams({
+    const pollParams: Record<string, string> = {
       client_id: CLIENT_ID,
       device_code,
       grant_type: "urn:ietf:params:oauth:grant-type:device_code",
-    });
+    };
+    if (CLIENT_SECRET) pollParams.client_secret = CLIENT_SECRET;
+    const params = new URLSearchParams(pollParams);
     const ghRes = await fetch("https://github.com/login/oauth/access_token", {
       method: "POST",
       headers: { Accept: "application/json" },

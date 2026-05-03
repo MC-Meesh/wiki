@@ -1,12 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
 
 type Phase = "idle" | "pending" | "authorized" | "error";
 
 export default function LoginPage() {
-  const router = useRouter();
   const [phase, setPhase] = useState<Phase>("idle");
   const [userCode, setUserCode] = useState("");
   const [verifyUrl, setVerifyUrl] = useState("https://github.com/login/device");
@@ -58,12 +56,16 @@ export default function LoginPage() {
       if (data.ok) {
         stopPolling();
         setPhase("authorized");
-        router.replace("/");
+        window.location.href = "/";
         return;
       }
       if (data.error === "access_denied" || data.error === "expired_token") {
         stopPolling();
         setErrorMsg(data.error === "access_denied" ? "Access denied" : "Code expired — try again");
+        setPhase("error");
+      } else if (data.error && data.error !== "authorization_pending" && data.error !== "slow_down") {
+        stopPolling();
+        setErrorMsg(`Auth error: ${data.error}`);
         setPhase("error");
       }
       // authorization_pending or slow_down: keep polling
