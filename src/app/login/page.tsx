@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 
 type Phase = "idle" | "pending" | "authorized" | "error";
 
@@ -11,6 +11,14 @@ export default function LoginPage() {
   const [errorMsg, setErrorMsg] = useState("");
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const deviceCodeRef = useRef("");
+  const [copied, setCopied] = useState(false);
+
+  const copyCode = useCallback(() => {
+    navigator.clipboard.writeText(userCode).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  }, [userCode]);
 
   function stopPolling() {
     if (pollRef.current) {
@@ -92,19 +100,25 @@ export default function LoginPage() {
 
         {phase === "pending" && userCode && (
           <div className="flex flex-col gap-4 items-center text-center">
-            <p className="text-muted text-sm font-mono">
-              go to{" "}
-              <a
-                href={verifyUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-foreground underline"
+            <a
+              href={verifyUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted text-sm font-mono hover:text-foreground transition-colors"
+            >
+              github.com/login/device ↗
+            </a>
+            <div className="flex items-center gap-2">
+              <div className="px-6 py-3 border border-accent/30 rounded font-mono text-foreground text-2xl tracking-widest select-all">
+                {userCode}
+              </div>
+              <button
+                onClick={copyCode}
+                className="px-3 py-3 border border-accent/30 text-muted hover:text-foreground hover:border-foreground/50 rounded text-xs font-mono transition-all"
+                title="Copy code"
               >
-                {verifyUrl}
-              </a>
-            </p>
-            <div className="px-6 py-3 border border-accent/30 rounded font-mono text-foreground text-2xl tracking-widest select-all">
-              {userCode}
+                {copied ? "✓" : "copy"}
+              </button>
             </div>
             <p className="text-muted text-xs font-mono">enter this code then wait — this page will update automatically</p>
           </div>
