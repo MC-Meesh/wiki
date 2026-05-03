@@ -76,7 +76,7 @@ function ChatPage() {
   }
 
   return (
-    <div className="flex flex-col h-[calc(100vh-96px-var(--sab))]">
+    <div className="flex flex-col h-full">
       {context && (
         <div className="px-5 py-2 text-xs text-accent border-b border-accent/20 font-mono">
           ctx: {context}
