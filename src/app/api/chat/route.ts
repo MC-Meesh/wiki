@@ -50,7 +50,7 @@ function spawnClaude(prompt: string, systemPrompt: string): ChildProcess {
   ], { env: { ...process.env, HOME: process.env.HOME ?? "/tmp" } });
 }
 
-export function warmNext() {
+function warmNext() {
   // Spawn with a trivial prompt so Node/modules/creds are loaded and ready
   warm = spawn("claude", [
     "-p", " ",
@@ -79,7 +79,7 @@ export async function POST(request: NextRequest) {
       const claude = spawnClaude(prompt, systemPrompt);
       let buf = "";
 
-      claude.stdout.on("data", (chunk: Buffer) => {
+      claude.stdout!.on("data", (chunk: Buffer) => {
         buf += chunk.toString();
         const lines = buf.split("\n");
         buf = lines.pop() ?? "";

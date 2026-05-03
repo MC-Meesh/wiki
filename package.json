@@ -55,6 +55,7 @@
   "devDependencies": {
     "@types/node-cron": "^3.0.11",
     "eslint": "^9.0.0",
-    "eslint-config-next": "^15.0.0"
+    "eslint-config-next": "^15.0.0",
+    "tsx": "^4.21.0"
   }
 }
