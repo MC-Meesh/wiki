@@ -26,6 +26,23 @@ If `.env` does not exist, do the following:
 
 If `.env` exists, just run `npm start` and tell the user the app is running.
 
+## Personalizing the app
+
+**To change colors, fonts, spacing, or any visual style:** edit `src/styles/theme.css`. That file contains every design token as a CSS custom property with comments explaining each one. Change values there — nothing else needs to touch.
+
+**To change layout or structure:** edit the relevant component in `src/components/`:
+- `shell/MobileShell.tsx` — overall page layout (header, nav, main area)
+- `shell/StatusBar.tsx` — top bar
+- `shell/BottomNav.tsx` — bottom navigation
+- `shell/ChatFAB.tsx` — floating chat button
+- `browse/BrowseList.tsx` — file browser
+- `daily/QuickAddTodo.tsx` — add-todo input
+- `editor/MarkdownEditor.tsx` — wiki editor
+
+Components use plain Tailwind classes. Add, remove, or swap classes freely. You can also add new components and import them into the shell.
+
+**The mental model:** `theme.css` controls how it looks. Component files control how it's structured. Both are plain CSS/Tailwind — no framework to learn.
+
 ## Notes
 
 - Never commit `.env` — it contains credentials
