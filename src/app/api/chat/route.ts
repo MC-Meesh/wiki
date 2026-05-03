@@ -2,7 +2,7 @@ import { NextRequest } from "next/server";
 import { getSession } from "@/lib/auth";
 import { readFile } from "fs/promises";
 import { join } from "path";
-import { spawn } from "child_process";
+import { spawn, ChildProcess } from "child_process";
 
 export const dynamic = "force-dynamic";
 
@@ -14,72 +14,69 @@ function today(): string {
 }
 
 async function readOrNull(path: string): Promise<string | null> {
-  try {
-    return await readFile(path, "utf-8");
-  } catch {
-    return null;
-  }
+  try { return await readFile(path, "utf-8"); } catch { return null; }
 }
 
 async function buildSystemPrompt(context?: string): Promise<string> {
   const date = today();
   const parts: string[] = [`Today's date: ${date}`];
-
   const claudeMd =
     (await readOrNull(join(WIKI_PATH, "CLAUDE.md"))) ??
     (await readOrNull(join(WIKI_PATH, "AGENT.md")));
   if (claudeMd) parts.push(`\n--- Wiki instructions ---\n${claudeMd}\n---`);
-
   const todayFile = await readOrNull(join(WIKI_PATH, "daily", `${date}.md`));
-  if (todayFile) {
-    parts.push(`\n--- Today's daily note ---\n${todayFile}\n---`);
-  }
-
+  if (todayFile) parts.push(`\n--- Today's daily note ---\n${todayFile}\n---`);
   if (context) {
     const contextFile = await readOrNull(join(WIKI_PATH, context));
-    if (contextFile) {
-      parts.push(`\n--- Currently viewing: ${context} ---\n${contextFile}\n---`);
-    }
+    if (contextFile) parts.push(`\n--- Currently viewing: ${context} ---\n${contextFile}\n---`);
   }
-
-  parts.push(
-    `\nYou have full read/write access to the wiki at ${WIKI_PATH}. ` +
-      `Changes you make are committed and synced automatically. Be concise.`
-  );
-
+  parts.push(`\nYou have full read/write access to the wiki at ${WIKI_PATH}. Changes you make are committed and synced automatically. Be concise.`);
   return parts.join("\n");
+}
+
+// Pre-warmed process: spawned immediately after each response so the next
+// request skips Node.js startup / module loading (~1-1.5s saved).
+let warm: ChildProcess | null = null;
+
+function spawnClaude(prompt: string, systemPrompt: string): ChildProcess {
+  return spawn("claude", [
+    "-p", prompt,
+    "--add-dir", WIKI_PATH,
+    "--append-system-prompt", systemPrompt,
+    "--permission-mode", "bypassPermissions",
+    "--output-format", "stream-json",
+    "--include-partial-messages",
+    "--verbose",
+  ], { env: { ...process.env, HOME: process.env.HOME ?? "/tmp" } });
+}
+
+export function warmNext() {
+  // Spawn with a trivial prompt so Node/modules/creds are loaded and ready
+  warm = spawn("claude", [
+    "-p", " ",
+    "--output-format", "stream-json",
+    "--verbose",
+    "--permission-mode", "bypassPermissions",
+  ], { env: { ...process.env, HOME: process.env.HOME ?? "/tmp" } });
+  warm.on("close", () => { warm = null; });
 }
 
 export async function POST(request: NextRequest) {
   const session = await getSession();
-  if (!session.authenticated) {
-    return new Response("Unauthorized", { status: 401 });
-  }
+  if (!session.authenticated) return new Response("Unauthorized", { status: 401 });
 
   const { messages, context } = await request.json();
   const systemPrompt = await buildSystemPrompt(context);
   const lastUserMessage = messages.at(-1)?.content ?? "";
-  const prompt = context
-    ? `(viewing ${context})\n\n${lastUserMessage}`
-    : lastUserMessage;
+  const prompt = context ? `(viewing ${context})\n\n${lastUserMessage}` : lastUserMessage;
+
+  // Kill the warm process (already past startup) and spawn real one
+  if (warm) { warm.kill(); warm = null; }
 
   const encoder = new TextEncoder();
   const stream = new ReadableStream({
     start(controller) {
-      const claude = spawn(
-        "claude",
-        [
-          "-p", prompt,
-          "--add-dir", WIKI_PATH,
-          "--append-system-prompt", systemPrompt,
-          "--permission-mode", "bypassPermissions",
-          "--output-format", "stream-json",
-          "--include-partial-messages",
-          "--verbose",
-        ],
-        { env: { ...process.env, HOME: process.env.HOME ?? "/tmp" } }
-      );
-
+      const claude = spawnClaude(prompt, systemPrompt);
       let buf = "";
 
       claude.stdout.on("data", (chunk: Buffer) => {
@@ -96,6 +93,7 @@ export async function POST(request: NextRequest) {
         const text = extractText(buf);
         if (text) controller.enqueue(encoder.encode(text));
         controller.close();
+        warmNext(); // pre-warm for next request
       });
 
       claude.on("error", (err) => {
@@ -130,8 +128,6 @@ function extractText(line: string): string {
         ?.map((b: { name: string }) => `\n\n_${b.name}..._\n\n`)
         ?.join("") ?? "";
     }
-  } catch {
-    // non-JSON line
-  }
+  } catch {}
   return "";
 }
