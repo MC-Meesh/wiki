@@ -9,6 +9,7 @@ FROM node:22-alpine AS runner
 WORKDIR /app
 RUN apk add --no-cache git
 ENV NODE_ENV=production
+ENV PATH="/app/node_modules/.bin:$PATH"
 # Install only production deps
 COPY package*.json ./
 RUN npm ci --omit=dev
