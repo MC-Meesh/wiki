@@ -1,0 +1,23 @@
+# Publish only the CLI and docs — the full app is cloned from GitHub at install time
+src/
+public/
+prompts/
+scripts/
+next.config.ts
+next-env.d.ts
+tsconfig.json
+postcss.config.mjs
+setup.sh
+.env.example
+
+# Always exclude
+node_modules/
+.next/
+out/
+.env
+.env.local
+.env*.local
+wiki-data/
+.DS_Store
+*.log
+Dockerfile

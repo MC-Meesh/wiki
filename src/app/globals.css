@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+@import "../styles/theme.css";
+
+/* Expose theme tokens as Tailwind utilities */
+@theme inline {
+  --color-background: var(--color-background);
+  --color-foreground: var(--color-foreground);
+  --color-muted:      var(--color-muted);
+  --color-accent:     var(--color-accent);
+  --color-emphasis:   var(--color-emphasis);
+  --color-primary:    var(--color-primary);
+  --color-surface:    var(--color-surface);
+  --font-mono:        var(--font-mono);
+  --font-body:        var(--font-body);
+}
+
+@layer base {
+  html {
+    font-family: var(--font-body);
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overscroll-behavior: none;
+    background-image:
+      radial-gradient(circle, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+    background-size: 24px 24px;
+    background-attachment: fixed;
+  }
+
+  * {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  ::selection {
+    @apply bg-foreground text-background;
+  }
+
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { @apply bg-background; }
+  ::-webkit-scrollbar-thumb { @apply bg-muted rounded; }
+}
+
+@layer components {
+  .card {
+    @apply border bg-surface/50 backdrop-blur-sm p-4 transition-all duration-300;
+    border-color: var(--border-color);
+    border-radius: var(--radius);
+  }
+  .card:hover { border-color: var(--border-color-hover); }
+}
+
+/* Prose — wiki content */
+.prose {
+  @apply text-muted text-sm leading-relaxed;
+  font-family: var(--font-body);
+  max-width: var(--content-max-width);
+}
+.prose h1 { @apply text-foreground text-lg font-semibold mt-6 mb-3; }
+.prose h2 { @apply text-foreground text-base font-semibold mt-8 mb-2 pb-1 border-b border-accent/20; }
+.prose h3 { @apply text-foreground text-sm font-semibold mt-6 mb-2; }
+.prose p  { @apply mb-3 leading-relaxed; }
+.prose ul, .prose ol { @apply my-2 space-y-1; }
+.prose li { @apply ml-4; }
+.prose ul li { list-style-type: none; }
+.prose ol li { list-style-type: decimal; }
+
+/* Todos */
+.prose ul.contains-task-list {
+  @apply my-2 list-none ml-0 pl-0 border-t border-accent/15;
+}
+.prose li.task-list-item {
+  @apply ml-0 px-1 py-2.5 cursor-pointer border-b border-accent/15 transition-colors duration-150;
+  list-style: none;
+}
+.prose li.task-list-item:hover { @apply text-foreground; }
+
+.prose li.task-list-item ul.contains-task-list {
+  @apply mt-2 ml-4 pl-3 border-l border-t-0 border-accent/20;
+}
+.prose li.task-list-item li.task-list-item       { @apply border-0 py-1; }
+.prose li.task-list-item li.task-list-item:hover { @apply border-0; }
+.prose li.task-list-item:has(input[checked])     { @apply opacity-40; }
+
+/* Code */
+.prose code     { @apply bg-accent/20 px-1.5 py-0.5 rounded text-xs text-foreground; }
+.prose pre      { @apply bg-accent/10 border border-accent/20 p-3 rounded overflow-x-auto mb-3 text-xs; }
+.prose pre code { @apply bg-transparent p-0 rounded-none; }
+
+/* Misc */
+.prose a          { @apply text-foreground underline hover:text-muted transition-colors; }
+.prose blockquote { @apply border-l-2 border-accent/40 pl-3 my-3 text-muted italic text-xs; }
+.prose strong     { @apply text-foreground; }
+.prose hr         { @apply border-accent/20 my-6; }
+
+.prose li input[type="checkbox"] {
+  @apply mr-2.5 accent-foreground align-middle;
+  width: 1em;
+  height: 1em;
+}
+
+.todo-item        { @apply cursor-pointer; }
+.todo-item:active { @apply scale-[0.99]; }

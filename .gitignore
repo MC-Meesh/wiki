@@ -5,6 +5,22 @@
 .obsidian/themes/
 .trash/
 
+# Node.js / Next.js
+node_modules/
+.next/
+out/
+
+# Environment (keep .env.example, ignore everything else)
+.env
+.env.local
+.env*.local
+
+# Wiki data (cloned at runtime)
+wiki-data/
+
 # OS
 .DS_Store
 wiki-private/
+
+# Logs
+*.log
